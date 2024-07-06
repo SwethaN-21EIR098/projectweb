@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Transactions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+        li {
+            background: #f8f9fa;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bank Transactions</h1>
+        <input type="text" id="transaction-input" placeholder="Enter transaction (e.g., 200, -100)">
+        <button onclick="addTransaction()">Add Transaction</button>
+        <ul id="transactions-list"></ul>
+        <h2>Total Balance: <span id="total-balance">0</span></h2>
+    </div>
+    <script>
+        let transactions = [];
+
+        function addTransaction() {
+            const input = document.getElementById('transaction-input');
+            const value = parseFloat(input.value);
+
+            if (!isNaN(value)) {
+                transactions.push(value);
+                updateTransactionsList();
+                updateTotalBalance();
+            }
+
+            input.value = '';
+        }
+
+        function updateTransactionsList() {
+            const transactionsList = document.getElementById('transactions-list');
+            transactionsList.innerHTML = '';
+
+            transactions.forEach(transaction => {
+                const li = document.createElement('li');
+                li.textContent = transaction > 0 ? `Deposit: $${transaction}` : `Withdrawal: $${Math.abs(transaction)}`;
+                transactionsList.appendChild(li);
+            });
+        }
+
+        function updateTotalBalance() {
+            const totalBalance = transactions.reduce((acc, transaction) => acc + transaction, 0);
+            document.getElementById('total-balance').textContent = totalBalance.toFixed(2);
+        }
+    </script>
+</body>
+</html>
